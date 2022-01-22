@@ -76,7 +76,7 @@ namespace EmirhanAvci.WebApi.Controllers
         }
 
 
-        [HttpPut("Update/{id}")]
+        [HttpPut("Update/{strId}")]
         public IActionResult Update(string strId, [FromBody] Coin coin)
         {
             if (_coinService.Update(strId,coin))
@@ -89,7 +89,7 @@ namespace EmirhanAvci.WebApi.Controllers
             }
         }
 
-        [HttpPatch("UpdateName/{id}")]
+        [HttpPatch("UpdateName/{strId}")]
         public IActionResult UpdateName(string strId, [FromBody] Coin coin)
         {
             if (_coinService.UpdateName(strId,coin))
@@ -102,7 +102,7 @@ namespace EmirhanAvci.WebApi.Controllers
             }
         }
 
-        [HttpDelete("DeleteCompletely/{id}")]
+        [HttpDelete("DeleteCompletely/{strId}")]
         public IActionResult DeleteCompletely(string strId, [FromBody] Coin coin)
         {
             if (_coinService.DeleteCompletely(strId,coin))
@@ -116,7 +116,7 @@ namespace EmirhanAvci.WebApi.Controllers
 
         }
         
-        [HttpPatch("DeleteForUser/{id}")]
+        [HttpPatch("DeleteForUser/{strId}")]
         public IActionResult Delete(string strId, [FromBody] Coin coin)
         {
             if (_coinService.Delete(strId, coin))

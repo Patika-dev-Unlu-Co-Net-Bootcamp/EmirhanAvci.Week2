@@ -3,6 +3,7 @@ using EmirhanAvci.WebApi.BusinessParticles.Concrete;
 using EmirhanAvci.WebApi.DataParticles.Abstract;
 using EmirhanAvci.WebApi.DataParticles.Concrete;
 using EmirhanAvci.WebApi.Helpers.Extensions;
+using EmirhanAvci.WebApi.Middleware;
 using EmirhanAvci.WebApi.Validation;
 using EmirhanAvci.WebApi.Validation.Abstract;
 using Microsoft.AspNetCore.Builder;
@@ -60,7 +61,11 @@ namespace EmirhanAvci.WebApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmirhanAvci.WebApi v1"));
             }
 
+            // Log Middleware
             app.CustomExceptionMiddleware();
+
+            //Error Handler Middleware
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseHttpsRedirection();
 

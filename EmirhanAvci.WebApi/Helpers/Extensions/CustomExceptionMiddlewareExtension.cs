@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace EmirhanAvci.WebApi.Helpers.Extensions
 {
-    public static class ApplicationBuilderExtension
+    public static class CustomExceptionMiddlewareExtension
     {
-        public static void CustomExceptionMiddleware(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCustomExceptionMiddle(this IApplicationBuilder builder)
         {
-            app.UseMiddleware<CustomExceptionMiddleware>();
+            return builder.UseMiddleware<CustomExceptionMiddleware>();
         }
     }
 }

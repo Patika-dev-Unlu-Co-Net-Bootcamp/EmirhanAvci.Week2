@@ -19,6 +19,7 @@ namespace EmirhanAvci.WebApi.Middleware
         }
         public async Task Invoke(HttpContext context)
         {
+            // Time Passing
             var watch = Stopwatch.StartNew();
             string message = "[Request] HTTP " + context.Request.Method + " - " + context.Request.Path;
             Console.WriteLine(message);
@@ -31,11 +32,5 @@ namespace EmirhanAvci.WebApi.Middleware
         }
     }
 
-    public static class CustomExceptionMiddlewareExtension
-    {
-        public static IApplicationBuilder UseCustomExceptionMiddle(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<CustomExceptionMiddleware>();
-        }
-    }
+    
 }

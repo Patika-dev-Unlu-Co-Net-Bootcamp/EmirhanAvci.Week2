@@ -62,7 +62,7 @@ namespace EmirhanAvci.WebApi
             }
 
             // Log Middleware
-            app.CustomExceptionMiddleware();
+            app.UseCustomExceptionMiddle();
 
             //Error Handler Middleware
             app.UseMiddleware<ErrorHandlerMiddleware>();

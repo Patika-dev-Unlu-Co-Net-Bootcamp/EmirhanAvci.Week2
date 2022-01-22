@@ -1,5 +1,6 @@
 ﻿using EmirhanAvci.WebApi.Helpers.Extensions;
 using EmirhanAvci.WebApi.Models.Concrete;
+using EmirhanAvci.WebApi.Validation.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EmirhanAvci.WebApi.Validation
 {
-    public class CoinValidation
+    public class CoinValidation: ICoinValidationService
     {
         public bool AddControl([FromBody] Coin coin)
         {
@@ -30,7 +31,7 @@ namespace EmirhanAvci.WebApi.Validation
          Bu yüzden bu çözümü kullandım.
          */
         #endregion
-        public Tuple<int, int> UpdateControl(string strId, [FromBody] Coin coin)
+        public Tuple<int, int> IdIsValid(string strId, [FromBody] Coin coin)
         {
             //IsNumber() => String Extension
             if (strId.IsNumber())

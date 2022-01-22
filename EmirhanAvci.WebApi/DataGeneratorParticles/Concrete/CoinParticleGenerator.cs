@@ -22,9 +22,54 @@ namespace EmirhanAvci.WebApi.DataParticles.Concrete
             };
         }
 
+        public void Add(Coin coin)
+        {
+            _coin.Add(coin);
+        }
+
+        public void Delete(int id, Coin coin)
+        {
+            var deletedCoin = _coin.FirstOrDefault(f => f.Id == id);
+            deletedCoin.VisibilityStatus = false;
+        }
+
+        public void DeleteCompletely(int id,Coin coin)
+        {
+            _coin.Remove(_coin.FirstOrDefault(f=>f.Id==id));
+        }
+
         public List<Coin> GetAll()
         {
             return _coin;
+        }
+
+        public IEnumerable<Coin> GetAllForUnauthorizedUsers()
+        {
+            return _coin.Where(w => w.VisibilityStatus == true);
+        }
+
+        public Coin GetById(int id)
+        {
+            return _coin.FirstOrDefault(f => f.Id == id);
+        }
+
+        public void Update(int id,Coin coin)
+        {
+            var updatedCoin = _coin.FirstOrDefault(f => f.Id == id);
+            updatedCoin.CoinName = coin.CoinName != default ? updatedCoin.CoinName : coin.CoinName;
+            updatedCoin.CoinCap = coin.CoinCap != default ? updatedCoin.CoinCap : coin.CoinCap;
+            updatedCoin.CoinListDate = coin.CoinListDate != default ? updatedCoin.CoinListDate : coin.CoinListDate;
+            updatedCoin.CoinMaxSupply = coin.CoinMaxSupply != default ? updatedCoin.CoinMaxSupply : coin.CoinMaxSupply;
+            updatedCoin.CoinTotalSupply = coin.CoinTotalSupply != default ? updatedCoin.CoinTotalSupply : coin.CoinTotalSupply;
+            updatedCoin.CoinPriceAvg = coin.CoinPriceAvg != default ? updatedCoin.CoinPriceAvg : coin.CoinPriceAvg;
+            updatedCoin.NetworkId = coin.NetworkId != default ? updatedCoin.NetworkId : coin.NetworkId;
+            updatedCoin.CategoryId = coin.CategoryId != default ? updatedCoin.CategoryId : coin.CategoryId;
+        }
+
+        public void UpdateName(int id, Coin coin)
+        {
+            var updatedCoin = _coin.FirstOrDefault(f => f.Id == id);
+            updatedCoin.CoinName = coin.CoinName;
         }
     }
 }

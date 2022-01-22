@@ -15,5 +15,13 @@ namespace EmirhanAvci.WebApi.BusinessParticles.Abstract
     public interface ICoinService
     {
         List<Coin> GetAll();
+        //With Linq
+        IEnumerable<Coin> GetAllForUnauthorizedUsers();
+        Coin GetById(int id);
+        bool Add(Coin coin);
+        bool Update(string strId, Coin coin);
+        bool UpdateName(string strId, Coin coin);
+        bool DeleteCompletely(string strId,Coin coin);
+        bool Delete(string strId, Coin coin);
     }
 }

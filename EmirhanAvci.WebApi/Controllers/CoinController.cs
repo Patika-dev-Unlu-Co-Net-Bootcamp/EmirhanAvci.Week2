@@ -24,7 +24,7 @@ namespace EmirhanAvci.WebApi.Controllers
         }
 
         [HttpGet("GetAllForAdmins")]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
             return Ok(_coinService.GetAll());
         }
@@ -37,16 +37,16 @@ namespace EmirhanAvci.WebApi.Controllers
          */
         #endregion
         [HttpGet("GetAllForUsers")]
-        public IActionResult GetForUnauthorizedUsers()
+        public IActionResult GetAllForUnauthorizedUsers()
         {
-            return Ok(CoinDataListGenerator.coinsList.Where(w => w.VisibilityStatus == true));
+            return Ok(_coinService.GetAllForUnauthorizedUsers());
         }
         [HttpGet("GetById/{id}")]
         public IActionResult GetById(int id)
         {
             if (id > 0)
             {
-                var selectedCoin = CoinDataListGenerator.coinsList.FirstOrDefault(f => f.Id == id);
+                var selectedCoin = _coinService.GetById(id);
                 if (selectedCoin != null)
                 {
                     return Ok(selectedCoin);
@@ -64,45 +64,23 @@ namespace EmirhanAvci.WebApi.Controllers
         [HttpPost("Add")]
         public IActionResult Add([FromBody] Coin coin)
         {
-            CoinValidation coinValidation = new CoinValidation();
-            if (coinValidation.AddControl(coin))
+            if (_coinService.Add(coin))
             {
-                try
-                {
-                    CoinDataListGenerator.coinsList.Add(coin);
-                    return Ok();            //Convert to Created
-                }
-                catch (Exception)
-                {
-                    return StatusCode(500);
-                }
+                return Created("Index", new { message = CoinSuccessMessage.CoinAddedMessage });
             }
+            //Return Anonymous Object
             else
             {
-                //Return Anonymous Object
-                return Created("Index", new { message = CoinSuccessMessage.CoinAddedMessage });
+                return BadRequest();
             }
         }
 
 
         [HttpPut("Update/{id}")]
-        public IActionResult Update(string id, [FromBody] Coin coin)
+        public IActionResult Update(string strId, [FromBody] Coin coin)
         {
-            CoinValidation coinValidation = new CoinValidation();
-            var numericControlObject =coinValidation.UpdateControl(id, coin);
-            //Item1 = Id Number
-            //Item2 = ControlValue
-            if (numericControlObject.Item1!=0 && numericControlObject.Item2!=-1)
+            if (_coinService.Update(strId,coin))
             {
-                var updatedCoin = CoinDataListGenerator.coinsList.FirstOrDefault(f => f.Id == numericControlObject.Item1);
-                updatedCoin.CoinName = coin.CoinName != default ? updatedCoin.CoinName : coin.CoinName;
-                updatedCoin.CoinCap = coin.CoinCap != default ? updatedCoin.CoinCap : coin.CoinCap;
-                updatedCoin.CoinListDate = coin.CoinListDate != default ? updatedCoin.CoinListDate : coin.CoinListDate;
-                updatedCoin.CoinMaxSupply = coin.CoinMaxSupply != default ? updatedCoin.CoinMaxSupply : coin.CoinMaxSupply;
-                updatedCoin.CoinTotalSupply = coin.CoinTotalSupply != default ? updatedCoin.CoinTotalSupply : coin.CoinTotalSupply;
-                updatedCoin.CoinPriceAvg = coin.CoinPriceAvg != default ? updatedCoin.CoinPriceAvg : coin.CoinPriceAvg;
-                updatedCoin.NetworkId = coin.NetworkId != default ? updatedCoin.NetworkId : coin.NetworkId;
-                updatedCoin.CategoryId = coin.CategoryId != default ? updatedCoin.CategoryId : coin.CategoryId;
                 return Ok();
             }
             else
@@ -112,14 +90,10 @@ namespace EmirhanAvci.WebApi.Controllers
         }
 
         [HttpPatch("UpdateName/{id}")]
-        public IActionResult UpdateName(string id, [FromBody] Coin coin)
+        public IActionResult UpdateName(string strId, [FromBody] Coin coin)
         {
-            CoinValidation coinValidation = new CoinValidation();
-            var numericControlObject = coinValidation.UpdateControl(id, coin);
-            if (numericControlObject.Item1 != 0 && numericControlObject.Item2 != -1)
+            if (_coinService.UpdateName(strId,coin))
             {
-                var updatedCoin = CoinDataListGenerator.coinsList.FirstOrDefault(f => f.Id == numericControlObject.Item1);
-                updatedCoin.CoinName = coin.CoinName != default ? coin.CoinName : updatedCoin.CoinName;
                 return Ok();
             }
             else
@@ -129,31 +103,24 @@ namespace EmirhanAvci.WebApi.Controllers
         }
 
         [HttpDelete("DeleteCompletely/{id}")]
-        public IActionResult DeleteCompletely(string id,[FromBody] Coin coin)
+        public IActionResult DeleteCompletely(string strId, [FromBody] Coin coin)
         {
-            CoinValidation coinValidation = new CoinValidation();
-            var numericControlObject = coinValidation.UpdateControl(id, coin);
-            if (numericControlObject.Item1 != 0 && numericControlObject.Item2 != -1)
+            if (_coinService.DeleteCompletely(strId,coin))
             {
-                var deletedCoin = CoinDataListGenerator.coinsList.FirstOrDefault(f => f.Id == numericControlObject.Item1);
-                CoinDataListGenerator.coinsList.Remove(deletedCoin);
                 return Ok();
             }
             else
             {
                 return BadRequest();
             }
-        } 
 
-        [HttpPatch]
-        public IActionResult Delete(string id, [FromBody] Coin coin)
+        }
+        
+        [HttpPatch("DeleteForUser/{id}")]
+        public IActionResult Delete(string strId, [FromBody] Coin coin)
         {
-            CoinValidation coinValidation = new CoinValidation();
-            var numericControlObject = coinValidation.UpdateControl(id, coin);
-            if (numericControlObject.Item1 != 0 && numericControlObject.Item2 != -1)
+            if (_coinService.Delete(strId, coin))
             {
-                var deletedCoin = CoinDataListGenerator.coinsList.FirstOrDefault(f => f.Id == numericControlObject.Item1);
-                deletedCoin.VisibilityStatus = false;
                 return Ok();
             }
             else

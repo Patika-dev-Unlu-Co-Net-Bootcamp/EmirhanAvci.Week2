@@ -3,6 +3,8 @@ using EmirhanAvci.WebApi.BusinessParticles.Concrete;
 using EmirhanAvci.WebApi.DataParticles.Abstract;
 using EmirhanAvci.WebApi.DataParticles.Concrete;
 using EmirhanAvci.WebApi.Helpers.Extensions;
+using EmirhanAvci.WebApi.Validation;
+using EmirhanAvci.WebApi.Validation.Abstract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +43,7 @@ namespace EmirhanAvci.WebApi
             //BusinessParticle Service
             services.AddScoped<ICoinService, CoinManager>();
             services.AddScoped<ITokenService, TokenManager>();
+            services.AddScoped<ICoinValidationService, CoinValidation>();
 
             //DataParticle Service
             services.AddScoped<ICoinParticleGeneratorService, CoinParticleGenerator>();

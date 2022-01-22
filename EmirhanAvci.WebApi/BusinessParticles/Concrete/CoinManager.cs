@@ -16,6 +16,7 @@ namespace EmirhanAvci.WebApi.BusinessParticles.Concrete
         {
             _coinParticleGeneratorService = coinParticleGeneratorService;
         }
+        
         public List<Coin> GetAll()
         {
             return _coinParticleGeneratorService.GetAll();

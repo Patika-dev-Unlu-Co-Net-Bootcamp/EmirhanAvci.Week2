@@ -17,6 +17,7 @@ namespace EmirhanAvci.WebApi.Middleware
         }
         public async Task InvokeAsync(HttpContext httpContext)
         {
+            string message = "[Request] HTTP" + httpContext.Request.Method + " - " + httpContext.Request.Path;
             try
             {
                 await _next(httpContext);

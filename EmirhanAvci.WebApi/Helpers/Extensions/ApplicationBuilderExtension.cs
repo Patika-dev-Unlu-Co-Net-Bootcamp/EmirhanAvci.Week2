@@ -11,7 +11,7 @@ namespace EmirhanAvci.WebApi.Helpers.Extensions
     {
         public static void CustomExceptionMiddleware(this IApplicationBuilder app)
         {
-            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<CustomExceptionMiddleware>();
         }
     }
 }
